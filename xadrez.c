@@ -33,6 +33,15 @@
 /* Número de casas que a Rainha percorre para a esquerda */
 #define CASAS_RAINHA 8
 
+/* Número de movimentos em L que o Cavalo executa */
+#define MOVIMENTOS_CAVALO 5
+
+/* Componente vertical do L: quantas casas desce por movimento */
+#define CASAS_CAVALO_BAIXO 2
+
+/* Componente horizontal do L: quantas casas vai à esquerda por movimento */
+#define CASAS_CAVALO_ESQUERDA 1
+
 /* ------------------------------------------------------------------ */
 
 int main() {
@@ -120,8 +129,83 @@ int main() {
 
     printf("  Rainha moveu %d casas para a esquerda.\n\n", CASAS_RAINHA);
 
+
+    /* ============================================================
+     * CAVALO — movimento em L (Baixo + Esquerda)
+     * Nível Aventureiro
+     *
+     * O cavalo percorre MOVIMENTOS_CAVALO saltos em L.
+     * Cada salto é composto por:
+     *   - CASAS_CAVALO_BAIXO    casas para Baixo     (2 casas)
+     *   - CASAS_CAVALO_ESQUERDA casas para Esquerda  (1 casa)
+     *
+     * Estruturas aninhadas utilizadas:
+     *   - Loop EXTERNO : FOR   — controla cada salto completo em L
+     *   - Loop INTERNO : WHILE — percorre os passos de "Baixo"
+     *                            dentro de cada salto
+     *   Após o while interno, um printf final registra o passo
+     *   horizontal ("Esquerda") que completa o L.
+     * ============================================================ */
     printf("============================================\n");
-    printf("  Simulacao de movimentacao concluida!\n");
+    printf("  CAVALO — %d saltos em L (Baixo + Esquerda)\n", MOVIMENTOS_CAVALO);
+    printf("  Cada L: %d casa(s) Baixo + %d casa(s) Esquerda\n",
+           CASAS_CAVALO_BAIXO, CASAS_CAVALO_ESQUERDA);
+    printf("  (loops aninhados: FOR externo + WHILE interno)\n");
+    printf("============================================\n");
+
+    /*
+     * Loop EXTERNO — FOR
+     * Responsável por repetir o salto em L completo.
+     * Sabemos de antemão quantos saltos o cavalo fará,
+     * então o FOR é a escolha natural.
+     *
+     * Variável: salto → número do salto atual (1 até MOVIMENTOS_CAVALO)
+     */
+    {
+        int salto;         /* contador do salto atual (loop externo) */
+        int passo_baixo;   /* contador dos passos verticais (loop interno) */
+
+        for (salto = 1; salto <= MOVIMENTOS_CAVALO; salto++) {
+
+            printf("\n  -- Salto %d --\n", salto);
+
+            /*
+             * Loop INTERNO — WHILE
+             * Percorre os passos verticais ("Baixo") do L.
+             * O WHILE é usado aqui para contrastar com o FOR externo
+             * e demonstrar o uso de loops aninhados diferentes.
+             *
+             * A condição é checada antes de cada passo vertical,
+             * garantindo que o número exato de casas seja percorrido.
+             */
+            passo_baixo = 1;
+            while (passo_baixo <= CASAS_CAVALO_BAIXO) {
+                printf("  Baixo\n");
+                passo_baixo++;
+            }
+
+            /*
+             * Após descer CASAS_CAVALO_BAIXO casas, o cavalo
+             * completa o L movendo-se CASAS_CAVALO_ESQUERDA
+             * casa(s) para a esquerda.
+             * Um segundo while aninhado garante flexibilidade
+             * caso o valor da constante seja alterado.
+             */
+            {
+                int passo_esq = 1;
+                while (passo_esq <= CASAS_CAVALO_ESQUERDA) {
+                    printf("  Esquerda\n");
+                    passo_esq++;
+                }
+            }
+        }
+    }
+
+    printf("\n  Cavalo completou %d saltos em L.\n\n", MOVIMENTOS_CAVALO);
+
+    printf("============================================\n");
+    printf("  Simulacao concluida! Pecas movimentadas:\n");
+    printf("  Bispo  | Torre | Rainha | Cavalo\n");
     printf("============================================\n");
 
     return 0;
